@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter/Modifier mes Informations Personnelles</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'create_personne.css' %}">
+    <!-- Lien vers Bootstrap via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+{% block content %}
+      
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Modifier mes Informations Personnelles</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Nom -->
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom :</label>
+                <input type="text" name="nom" id="nom" class="form-control" value="{{ form.nom.value|default:'' }}" required>
+            </div>
+
+            <!-- Prénom -->
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom :</label>
+                <input type="text" name="prenom" id="prenom" class="form-control" value="{{ form.prenom.value|default:'' }}" required>
+            </div>
+
+            <!-- Date de Naissance -->
+            <div class="mb-3">
+                <label for="date_naissance" class="form-label">Date de Naissance :</label>
+                <input type="date" name="date_naissance" id="date_naissance" class="form-control" value="{{ form.date_naissance.value|default:'' }}" required>
+            </div>
+
+            <!-- Téléphone -->
+            <div class="mb-3">
+                <label for="telephone" class="form-label">Téléphone :</label>
+                <input type="tel" name="telephone" id="telephone" class="form-control" value="{{ form.telephone.value|default:'' }}">
+            </div>
+
+            <!-- Adresse -->
+            <div class="mb-3">
+                <label for="adresse" class="form-label">Adresse :</label>
+                <input type="text" name="adresse" id="adresse" class="form-control" value="{{ form.adresse.value|default:'' }}">
+            </div>
+
+            <!-- Photo -->
+            <div class="mb-3">
+                <label for="photo" class="form-label">Photo :</label>
+                <input type="file" name="photo" id="photo" class="form-control" onchange="previewImage(event)">
+                <img id="photo-preview" src="#" alt="Prévisualisation" class="mt-2" style="max-width: 150px; display: none;">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+            <!-- Bouton pour voir les informations personnelles -->
+            <a href="{% url 'view_personne' %}" class="btn btn-secondary ms-3">Voir mes informations personnelles</a>
+        </form>
+    </div>
+
+    <!-- Scripts Bootstrap via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script pour prévisualiser la photo téléchargée -->
+    <script>
+        function previewImage(event) {
+            var output = document.getElementById('photo-preview');
+            output.style.display = 'block';
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+</body>
+{% endblock %}
+</html>

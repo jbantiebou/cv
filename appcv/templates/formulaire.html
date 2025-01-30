@@ -1,0 +1,109 @@
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification du Mot de Passe</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'compte.css' %}">
+</head>
+<body>
+    <h1>Vérification du Mot de Passe</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+        <div>
+            <label for="password">Mot de passe :</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <div>
+            <button type="submit">Valider</button>
+        </div>
+        {% if error_message %}
+            <p style="color:red;">{{ error_message }}</p>
+        {% endif %}
+    </form>
+
+    {% if user_authenticated %}
+        <h2 class="Bienvenue">Bienvenue,  {{user.username}} {{ personne.prenom }} </h2>
+        <!-- Afficher les formulaires ou autres informations de l'utilisateur -->
+        <a class="btncompte" href="{% url 'boite' %}">Ajouter ou modifier informations</a>
+    {% endif %}
+
+    {% if user_not_found %}
+        <p class="annonce">veillez créer un compte si vous ne l'avez pas encore fait. </p>
+        <a class="btncompte" href="{% url 'register' %}">Créer un compte</a>
+    {% endif %}
+</body>
+</html>
+ {% endcomment %}
+ <!DOCTYPE html>
+ <html lang="fr">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Vérification du Mot de Passe</title>
+     {% load static %}
+     <link rel="stylesheet" href="{% static 'compte.css' %}">
+     <style>
+         .btn-trombinoscope {
+             background-color: #4CAF50; /* Vert */
+             color: white;
+             padding: 15px 32px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+             margin: 20px 0;
+             cursor: pointer;
+             border-radius: 5px;
+         }
+         .btn-trombinoscope:hover {
+             background-color: #45a049; /* Vert foncé au survol */
+         }
+     </style>
+ </head>
+ <body>
+       <div class="actions" style="text-align: center;">
+         <!-- Lien vers Trombinoscope amélioré -->
+         <a href="{% url 'trombinoscope' %}" class="btn-trombinoscope">Accédez au Trombinoscope</a>
+     </div>
+     <h1>Vérification du Mot de Passe</h1>
+ 
+     <form method="POST">
+         {% csrf_token %}
+         <div>
+             <label for="username">Nom d'utilisateur :</label>
+             <input type="text" name="username" id="username" required>
+         </div>
+         <div>
+             <label for="password">Mot de passe :</label>
+             <input type="password" name="password" id="password" required>
+         </div>
+         <div>
+             <button type="submit">Valider</button>
+         </div>
+         {% if error_message %}
+             <p style="color:red;">{{ error_message }}</p>
+         {% endif %}
+     </form>
+ 
+     {% if user_authenticated %}
+         <h2 class="Bienvenue">Bienvenue,  {{user.username}} {{ personne.prenom }} </h2>
+         <!-- Afficher les formulaires ou autres informations de l'utilisateur -->
+         <a class="btncompte" href="{% url 'boite' %}">Ajouter ou modifier informations</a>
+     {% endif %}
+ 
+     {% if user_not_found %}
+         <p class="annonce">Veuillez créer un compte si vous ne l'avez pas encore fait. </p>
+         <a class="btncompte" href="{% url 'register' %}">Créer un compte</a>
+     {% endif %}
+ </body>
+ </html>
+ 
