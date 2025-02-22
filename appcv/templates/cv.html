@@ -1,0 +1,104 @@
+<body>
+
+    <!-- Menu de navigation -->
+    <nav style="background-color: #007bff; padding: 10px 0;">
+        <div style="text-align: center;">
+            <a href="{% url 'create_cv' %}" style="color: white; margin: 0 15px; font-size: 1.2rem; text-decoration: none;">Création de CV</a>
+            <a href="{% url 'trombinoscope' %}" style="color: white; margin: 0 15px; font-size: 1.2rem; text-decoration: none;">Trombinoscope</a>
+            <a href="{% url 'download_pdf' %}" style="color: white; margin: 0 15px; font-size: 1.2rem; text-decoration: none;">Téléchargement PDF</a>
+        </div>
+    </nav>
+
+    <div class="cv-container">
+        <h1>Curriculum Vitae</h1>
+
+        <!-- Informations Personnelles -->
+        <div class="contact-info">
+            <h2>{{ personne.prenom }} {{ personne.nom }}</h2>
+            {% if personne.photo and personne.photo.url %}
+            <img src="{{ personne.photo.url }}" alt="Photo de {{ personne.prenom }}">
+            {% else %}
+            <img src="/media/photos/default.jpg" alt="Image par défaut">
+            {% endif %}
+            <p>Email : {{ contact.email }}</p>
+            <p>Téléphone : {{ contact.telephone }}</p>
+            <p>Adresse : {{ contact.adresse }}</p>
+        </div>
+
+        <!-- Table des expériences professionnelles -->
+        <div class="section-title">Expérience Professionnelle</div>
+        <table>
+            <tr>
+                <th>Poste</th>
+                <th>Entreprise</th>
+                <th>Periode</th>
+                <th>Description</th>
+            </tr>
+            {% for experience in experiences %}
+            <tr>
+                <td>{{ experience.titre }}</td>
+                <td>{{ experience.entreprise }}</td>
+                <td>du {{ experience.date_debut }} au {% if experience.date_fin %}{{ experience.date_fin }}{% else %}Présent{% endif %}</td>
+                <td>{{ experience.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Table des formations -->
+        <div class="section-title">Formation</div>
+        <table>
+            <tr>
+                <th>Diplôme</th>
+                <th>Institution</th>
+                <th>Periode</th>
+            </tr>
+            {% for formation in formations %}
+            <tr>
+                <td>{{ formation.diplome }}</td>
+                <td>{{ formation.institution }}</td>
+                <td>Du {{ formation.date_debut }} au {% if formation.date_fin %}{{ formation.date_fin }}{% else %}Présent{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Table des compétences -->
+        <div class="section-title">Compétences</div>
+        <table>
+            <tr>
+                <th>Compétence</th>
+                <th>Niveau</th>
+            </tr>
+            {% for competence in competences %}
+            <tr>
+                <td>{{ competence.nom }}</td>
+                <td>{{ competence.niveau }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Table des langues -->
+        <div class="section-title">Langues</div>
+        <table>
+            <tr>
+                <th>Langue</th>
+                <th>Niveau</th>
+            </tr>
+            {% for langue in langues %}
+            <tr>
+                <td>{{ langue.langue }}</td>
+                <td>{{ langue.niveau }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <button class="btn-download">
+            <a href="{{ url_of_cv_pdf }}" style="color: white; text-decoration: none;">Télécharger CV</a>
+        </button>
+    </div>
+
+    <!-- Bouton pour envoyer le CV par WhatsApp -->
+    <a href="https://api.whatsapp.com/send?text=Mon%20CV%20est%20disponible%20ici:%20{{ url_of_cv_pdf }}" target="_blank">
+        <button type="button" class="btn" style="background-color: #25d366; color: white;">Envoyer par WhatsApp</button>
+    </a>
+
+</body>
